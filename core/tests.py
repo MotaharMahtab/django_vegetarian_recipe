@@ -17,8 +17,8 @@ class BaseTest(TestCase):
         self.user_unmatching_password={
 
             'username':'username',
-            'password1':'teslatt',
-            'password2':'teslatt',
+            'password1':'password1',
+            'password2':'password2',
             'password':'password'
         }
         
