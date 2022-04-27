@@ -11,4 +11,4 @@ The view is used to execute the business logic and interact with a model to carr
 
 The template is a presentation layer that handles the User Interface part completely. These are files with HTML code, which is used to render data. 
 
-For our project, we follow this MVT pattern of Django. Django also takes care of the admin permissions, user permissions and admin view of the app. The Login and signup functionality of the project is directly derived from the following repository: https://github.com/riifaat/TrackYourTask in order to focus on the main project functionality. The test cases for login and sign up functionality are also similar to this repository.
+For our project, we follow this MVT pattern of Django. Django also takes care of the admin permissions, user permissions and admin view of the app. The Login and signup functionality of the project is directly derived from the following repository: riifaat/TrackYourTask in order to focus on the main project functionality. The test cases for login and sign up functionality are also similar to this repository.
