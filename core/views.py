@@ -17,17 +17,51 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
-
 from . import appsettings
-from .models import *
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+from django.db import IntegrityError
+
+def signupuser(request):
+
+    if request.method == 'GET':
+        return render(request, 'signupuser.html', {'form':UserCreationForm()})
+
+    else:
+
+        if request.POST['password1'] == request.POST['password2']:
+
+            try:
+                user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
+                user.save()
+                login(request, user)
+                return redirect('/')
+
+            except IntegrityError:
+                return render(request, 'signupuser.html', {'form': UserCreationForm(), 'error': 'That username already exists. Try a new one!'})
+
+        else:
+            return render(request, 'signupuser.html', {'form':UserCreationForm(), 'error':'Password did not match!'})
 
 
-def products(request):
-    context = {
-        'items': Recipe.objects.all()
-    }
-    return render(request, "products.html", context)
+def loginuser(request):
 
+    if request.method == 'GET':
+        return render(request, 'loginuser.html', {'form':AuthenticationForm()})
+
+    else:
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        if user is None:
+            return render(request, 'loginuser.html', {'form': AuthenticationForm(), 'error':'Username and Password did not match!'})
+        else:
+            login(request, user)
+            return redirect('/')
+
+@login_required
+def logoutuser(request):
+    logout(request)
+    return redirect('core:loginuser')
 
 class CheckoutView(View):
     def get(self,*args,**kwargs):
@@ -142,7 +176,7 @@ class TagsView(ListView):
     """ tags page """
     model=Tag
     template_name = "list.html"
-    paginate_by=1
+    paginate_by=3
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tags = self.kwargs['tags']
@@ -165,7 +199,7 @@ class CategoryView(ListView):
     """ category page """
     model=Category
     template_name = "list.html"
-    paginate_by=1
+    paginate_by=3
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         category_name = self.kwargs['category_name']

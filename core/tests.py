@@ -1,29 +1,104 @@
-"""
-Django Vegetarian Cookbook, Copyright © 2018 Sergey Panasenko.
-Contacts: <sergey.panasenko@gmail.com>
-License: https://opensource.org/licenses/AGPL-3.0
-"""
 from django.test import TestCase
-from .models import Category, Recipe, Ingredient, RecipeIngredient
+from django.urls import reverse
+from django.contrib.auth.models import User
+from django.utils.encoding import force_bytes,force_text,DjangoUnicodeDecodeError
+from core.models import *
+
+class BaseTest(TestCase):
+    def setUp(self):
+        self.signupuser_url=reverse('core:signupuser')
+        self.loginuser_url=reverse('core:loginuser')
+        self.user={
+            'username':'username',
+            'password1':'password',
+            'password2':'password',
+            'password':'password'
+        }
+        self.user_unmatching_password={
+
+            'username':'username',
+            'password1':'teslatt',
+            'password2':'teslatt',
+            'password':'password'
+        }
+        
+        return super().setUp()
+
+class SignUpUserTest(BaseTest):
+   def test_user_can_view_page_correctly(self):
+       response=self.client.get(self.signupuser_url)
+       self.assertEqual(response.status_code,200)
+       self.assertTemplateUsed(response,'signupuser.html')
 
 
-class RecipeMethodTests(TestCase):
+   def test_user_can_register(self):
+       response = self.client.post(self.signupuser_url, self.user, format='text/html')
+       self.assertEqual(response.status_code, 302)
+
+
+
+def test_user_cant_register_with_taken_username(self):
+        self.client.post(self.signupuser_url,self.user,format='text/html')
+        response=self.client.post(self.signupuser_url,self.user,format='text/html')
+        self.assertEqual(response.status_code,400) 
+
+
+
+def test_user_cant_register_with_unmatched_passwords(self):
+        response=self.client.post(self.signupuser_url,self.user_unmatching_password,format='text/html')
+        self.assertEqual(response.status_code,400)   
+
+        
+            
+
+
+class LoginTest(BaseTest):
+    def test_user_can_access_login_page(self):
+        response=self.client.get(self.loginuser_url)
+        self.assertEqual(response.status_code,200)
+        self.assertTemplateUsed(response,'loginuser.html')
+
+
+
+    def test_user_can_login_successfully(self):
+        self.client.post(self.signupuser_url,self.user,format='text/html')
+        user=User.objects.filter(username=self.user['username']).first()
+        user.is_active=True
+        user.save()
+        response= self.client.post(self.loginuser_url,self.user,format='text/html')
+        self.assertEqual(response.status_code,302) 
+
+
+
+    def test_user_cant_login_without_username(self):
+        response= self.client.post(self.loginuser_url,{'password':'passwped','username':''},format='text/html')
+        self.assertEqual(response.status_code,200)
+
+
+    
+    def test_user_cant_login_without_password(self):
+        response= self.client.post(self.loginuser_url,{'username':'username','password':''},format='text/html')
+        self.assertEqual(response.status_code,200)
+
+class RecipeMethodTests(BaseTest):
     """ Test recipe methods """
     def test_calculate(self):
         """
         test calculate energy and nutrients
         """
-        recipe = Recipe()
+        self.client.post(self.signupuser_url,self.user,format='text/html')
+        user=User.objects.filter(username=self.user['username']).first()
+        recipe = Recipe(price=100,owner=user)
         recipe.calculate()
-        self.assertEqual(recipe.energy, None)
+        self.assertEqual(recipe.energy, 0)
 
-        recipe = Recipe(weight=100)
+        recipe = Recipe(weight=100,price=100,owner=user)
         recipe.calculate()
         self.assertEqual(recipe.energy, 0)
 
         category = Category(name='Cat1')
         category.save()
-        recipe = Recipe(category=category)
+        recipe = Recipe(category=category,price=100,owner=user)
         recipe.save()
         ingredient = Ingredient(name='test1', energy=100,
                                 protein=1, fat=2, carbohydrate=3)

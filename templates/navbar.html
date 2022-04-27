@@ -46,7 +46,7 @@
           </li>
           
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'account_logout' %}">
+            <a class="nav-link waves-effect" href="{% url 'core:logoutuser' %}">
               <!-- <span class="badge red z-depth-1 mr-1"> 1 </span> -->
               <!-- <i class="fas fa-shopping-cart"></i> -->
               <span class="clearfix d-none d-sm-inline-block"> Logout </span>
@@ -54,14 +54,14 @@
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'account_login' %}">
+            <a class="nav-link waves-effect" href="{% url 'core:loginuser' %}">
               <!-- <span class="badge red z-depth-1 mr-1"> 1 </span> -->
               <!-- <i class="fas fa-shopping-cart"></i> -->
               <span class="clearfix d-none d-sm-inline-block"> Login </span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link waves-effect" href="{% url 'account_signup' %}">
+            <a class="nav-link waves-effect" href="{% url 'core:signupuser' %}">
               <!-- <span class="badge red z-depth-1 mr-1"> 1 </span> -->
               <!-- <i class="fas fa-shopping-cart"></i> -->
               <span class="clearfix d-none d-sm-inline-block"> Signup </span>

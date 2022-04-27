@@ -1,8 +1,3 @@
-"""
-Django Vegetarian Cookbook, Copyright © 2018 Sergey Panasenko.
-Contacts: <sergey.panasenko@gmail.com>
-License: https://opensource.org/licenses/AGPL-3.0
-"""
 from django.utils.translation import gettext as _
 from django.conf import settings
 

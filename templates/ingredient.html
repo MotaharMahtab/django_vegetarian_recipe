@@ -58,14 +58,6 @@
             {% recipe_energy_nutrients 80 True ingredient  %}
         </div>
         </div>   
-        
-        <div class="p-4">
-          {% if perms.vegetarian_cookbook.can_change %}
-          <a href="{% url 'admin:core_ingredient_change' ingredient.id %}" class="btn btn-secondary btn-md my-0 p">Edit Recipe
-            <i class="fas fa-edit-recipe ml-1"></i>
-          </a>
-          {% endif %}
-        </div>
 
     </div>
 

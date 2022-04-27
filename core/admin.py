@@ -12,13 +12,6 @@ from .forms import IngredientForm, RecipeForm, RecipeIngredientInlineForm
 admin.site.site_header = _('My recipes')
 LINK_HTML = '<a href="{}" target="_blank">{}</a>'
 
-# admin.site.register(Nutrient)
-# admin.site.register(Unit)
-# admin.site.register(Category)
-# admin.site.register(Tag)
-# admin.site.register(IngredientUnit)
-# admin.site.register(Ingredient)
-
 @admin.register(Nutrient)
 class NutrientAdmin(admin.ModelAdmin):
     """ Register Nutrient Model in Admin """

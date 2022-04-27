@@ -45,18 +45,6 @@ def ingredients_list(number_of_displayed, ingredients):
     }
 
 
-@register.inclusion_tag('templatetags/range_slider.html')
-def range_slider(**kwargs):
-    """ show slider for search """
-    return kwargs
-
-
-@register.inclusion_tag('templatetags/paginator.html')
-def paginator(data):
-    """ show page numbers links """
-    return {'data': data}
-
-
 @register.inclusion_tag(
     'templatetags/recipe_energy_nutrients.html')
 def recipe_energy_nutrients(size, show_legend, recipe):

@@ -106,7 +106,7 @@
           <a href="{{ recipe.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">Remove from cart
             <i class="fas fa-shopping-cart ml-1"></i>
           </a>
-          {% if perms.vegetarian_cookbook.can_change %}
+          {% if perms.core.can_change %}
             <a href="{% url 'admin:core_recipe_change' recipe.id %}" class="btn btn-secondary btn-md my-0 p">Edit Recipe
               <i class="fas fa-edit-recipe ml-1"></i>
             </a>

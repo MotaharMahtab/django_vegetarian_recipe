@@ -1,9 +1,3 @@
-"""
-Django Vegetarian Cookbook, Copyright © 2018 Sergey Panasenko.
-Contacts: <sergey.panasenko@gmail.com>
-License: https://opensource.org/licenses/AGPL-3.0
-"""
-
 from http.client import PAYMENT_REQUIRED
 from django.forms.models import ModelForm
 from django.utils.translation import gettext_lazy as _

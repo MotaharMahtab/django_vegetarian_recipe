@@ -3,12 +3,12 @@ from .views import (
     CheckoutView,
     OrderSummaryView,
     PaymentView,
-    products,
     HomeView,
     ItemDetailView,
     IngredientView,
     CategoryView,
     TagsView,
+    loginuser,signupuser,logoutuser,
     add_to_cart,
     remove_from_cart,
     remove_singe_item_from_cart,
@@ -19,9 +19,11 @@ from django.contrib import admin
 app_name = 'core'
 
 urlpatterns = [
+    path('signup/', signupuser, name='signupuser'),
+    path('login/', loginuser, name='loginuser'),
+    path('logout/',logoutuser, name='logoutuser'),
     path('', HomeView.as_view(), name='home'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
-    # path('product/<slug>/', ItemDetailView.as_view(), name='product'),
     re_path(r'^add-to-cart/(?P<recipe_name>[A-Za-z_\-0-9]+)/(?P<slug>[A-Za-z_\-0-9]+)$', add_to_cart, name='add-to-cart'),
     re_path(r'^remove-from-cart/(?P<recipe_name>[A-Za-z_\-0-9]+)/(?P<slug>[A-Za-z_\-0-9]+)$', remove_from_cart, name='remove-from-cart'),
     re_path(r'^recipe/(?P<recipe_name>[A-Za-z_\-0-9]+)/(?P<slug>[A-Za-z_\-0-9]+)$',
