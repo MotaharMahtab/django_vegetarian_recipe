@@ -1,0 +1,7 @@
+
+{% for tag in tags %}        
+    <a class="{{ a_class }}" href="{%url 'core:recipes_tags' tag.name%}">
+        <span style="display:inline-block;width:20px; margin-right:0.5rem">&nbsp;</span>
+        {{ tag.name }}
+    </a>
+{% endfor %}

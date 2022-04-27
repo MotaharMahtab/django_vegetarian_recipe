@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{%load cart_template_tags %}
+{%load vegetarian_cookbook_tags %}
+
+
+{% block extra_head %}
+<title>{{ title }}</title>
+<meta name="description" content="{{ seo_description }}">
+<meta name="keywords" content="{{ seo_keywords }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <main role="main">
+
+        <div class="row d-flex justify-content-center wow fadeIn">
+
+            <!--Grid column-->
+            <div class="col-md-6 text-center">
+              <a href="{%url 'core:recipes_category' category_name%}" class="dark-grey-text">
+                <h3 class="my-3 h3">{{title}}</h3>
+              </a>
+            </div>
+            <!--Grid column-->
+      
+          </div>
+          <!--Grid row-->
+
+    <!--Section: Products v.3-->
+    <section class="text-center mb-4">
+        
+        <!--Grid row-->
+        <div class="row wow fadeIn">
+            {% paginator recipes %}    
+                {% include "list_include.html" %}
+            {% paginator recipes %}
+        </div>
+    </section>  
+    </main>
+</div>
+
+{% endblock %}

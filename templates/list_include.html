@@ -1,0 +1,92 @@
+{% load vegetarian_cookbook_tags %}
+{% load static %}
+{% load i18n %}
+
+{% for recipe in object_list %}
+    <div class="col-lg-3 col-md-6 mb-4">
+
+        <!--Card-->
+        <div class="card">
+            <!--Card image-->
+            <div class="view overlay">
+                <a href="{% url 'core:recipes_recipe' recipe.url recipe.slug%}">
+                    {% if recipe.thumbnail %}
+                        <img class="card-img-top" src="{{recipe.thumbnail.url }}" alt="{{ recipe.title }}">
+                    {% else %}
+                        <img class="card-img-top" src="{% static 'vegetarian_cookbook/img/default.jpg' %}" alt="{{ recipe.title }}">
+                    {% endif %}
+                </a>
+              </div>
+              <!--Card image-->
+
+            <!-- <div class="recipe__card_category position-absolute m-2">
+                <button type="button" class="btn btn-primary" onclick="location.href='{% url 'core:recipes_category' recipe.category.name %}'" title="{{ recipe.category.name }}">
+                    {% if recipe.category.image %}
+                      <img src="{{recipe.category.image.url }}" alt="Contact Person"> {{recipe.category.name}}
+                    {% else %}
+                        {{ recipe.category.name }}
+                    {% endif %}
+                </button>
+            </div>     -->
+
+            <!--Card content-->
+            <div class="card-body text-center">
+                <!--Category & Title-->
+                <span class="chip">
+                    <a href="{%url 'core:recipes_category' recipe.category.name%}" title="{{ recipe.category.name }}">
+                      {% if recipe.category.image %}
+                      <img src="{{recipe.category.image.url }}" alt="Contact Person"> {{recipe.category.name}}
+                    {% else %}
+                        {{ recipe.category.name }}
+                    {% endif %}
+                    </a>
+                  </span>
+
+                  <h5>
+                    <strong>
+                      <a href="{{ recipe.get_absolute_url }}" class="dark-grey-text">{{recipe.title}}
+                        <span class="badge badge-pill {{recipe.get_label_display}}-color">NEW</span>
+                      </a>
+                    </strong>
+                  </h5>
+  
+                <h4 class="font-weight-bold blue-text">
+                  <strong>$
+                    {% if recipe.discount_price%}
+                    {{recipe.discount_price}}
+                    {%else%}
+                    {{recipe.price}}
+                    {%endif%}
+                  </strong>
+                </h4>
+                <div class="ml-5">
+                    {% if recipe.time %}
+                      {% recipe_cooking_time recipe.time  %}
+                    {% endif %}
+                    
+                  </div>
+                  
+                  <div class="mb-3">
+                    <div class="recipe__complexity my-2" style="vertical-align:middle">
+                      <img width="20" class="mr-1" src="{% static 'img/icon_complexity.png' %}"> {{ recipe.get_complexity_display }}
+                    </div>
+                  </div> 
+                  <div class="col col-md-auto p-0">
+                    <div class="float-right">
+                        {% recipe_energy_nutrients 60 False recipe  %}
+                    </div>
+                </div>
+                   <!-- <div class="p-4">
+                    <div class="recipe__energy_nutrients__wrapper">
+                      {% recipe_energy_nutrients 80 True recipe  %}
+                    </div>
+                  </div>  -->
+                  <!--Content-->
+                </div>
+                
+              </div>
+              <!--Card content-->
+
+        </div>
+      
+{% endfor %}

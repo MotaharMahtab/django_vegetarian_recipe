@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load admin_urls %}
+{% load vegetarian_cookbook_tags %}
+
+
+{% block extra_head %}
+  <title>{{ recipe.title }}</title>
+  <meta name="description" content="{{ seo_description }}">
+  <meta name="keywords" content="{{ seo_keywords }}">
+  <meta property="og:title" content="{{ recipe.title }}" />
+  {% if recipe.image %}
+      <meta property="og:image" content="{{recipe.thumbnail.url }}" />
+  {% endif %}
+  <link href="{% static 'lightbox2/css/lightbox.css' %}" rel="stylesheet">
+
+{% endblock %}
+{% block content %}
+
+<main class="mt-2 pt-1">
+  
+  <div class="container dark-grey-text mt-5">
+    <!--Grid row-->
+    <div class="row d-flex justify-content-center wow fadeIn">
+
+      <!--Grid column-->
+      <div class="col-md-6 text-center">
+        <a href="{{recipe.get_absolute_url}}" class="dark-grey-text">
+          <h3 class="my-3 h3">{{recipe.title}}</h3>
+        </a>
+      </div>
+      <!--Grid column-->
+
+    </div>
+    <!--Grid row-->
+
+    <!--Grid row-->
+    <div class="row wow fadeIn">
+      
+      <!--Grid column-->
+      <div class="col-md-6 text-center">
+        
+        <img src="{{recipe.thumbnail.url }}" class="img-fluid" alt="">
+
+      </div>
+      <!--Grid column-->
+
+      <!--Grid column-->
+      <div class="col-md-6 mb-4">
+        
+            <!--Content-->
+
+          <div class="p-4">
+            <div class="mb-3">
+              <span class="chip">
+                <a href="{%url 'core:recipes_category' recipe.category.name%}" title="{{ recipe.category.name }}">
+                  {% if recipe.category.image %}
+                  <img src="{{recipe.category.image.url }}" alt="Contact Person"> {{recipe.category.name}}
+                {% else %}
+                    {{ recipe.category.name }}
+                {% endif %}
+                </a>
+              </span>
+              
+              {% for rt in recipe.tags.all %}
+                <a href="{%url 'core:recipes_tags' rt.name%}">
+                  <span class="chip">
+                    {{ rt.name }}
+                  </span>
+                </a>
+              {% endfor %}
+  
+            </div>
+  
+            <p class="lead">
+              {% if recipe.discount_price%}
+              <span class="mr-1">
+                <del>${{recipe.price}}</del>
+              </span>
+              <span>${{recipe.discount_price}}</span>
+              {%else%}
+              <span>${{recipe.price}}</span>
+              {%endif%}
+            </p>
+
+            <div class="mb-3">
+              {% if recipe.time %}
+                {% recipe_cooking_time recipe.time  %}
+              {% endif %}
+            </div>
+            <div class="mb-3">
+              <div class="recipe__complexity my-2" style="vertical-align:middle">
+                <img width="20" class="mr-1" src="{% static 'img/icon_complexity.png' %}"> {{ recipe.get_complexity_display }}
+              </div>
+            </div>
+           <!-- <form class="d-flex justify-content-left">
+           Default input 
+          <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+
+
+          </form> -->
+          <a href="{{ recipe.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">Add to cart
+            <i class="fas fa-shopping-cart ml-1"></i>
+          </a>
+          <a href="{{ recipe.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">Remove from cart
+            <i class="fas fa-shopping-cart ml-1"></i>
+          </a>
+          {% if perms.vegetarian_cookbook.can_change %}
+            <a href="{% url 'admin:core_recipe_change' recipe.id %}" class="btn btn-secondary btn-md my-0 p">Edit Recipe
+              <i class="fas fa-edit-recipe ml-1"></i>
+            </a>
+            {% endif %}
+          
+        </div>
+      </div>
+      <!--Grid column-->
+    </div>
+
+    <div class="row wow fadeIn">
+
+      <!--Grid column-->
+      <div class="col-md-6 text-center">
+
+        <!--Content-->
+        <div class="p-4">
+          <div class="recipe__energy_nutrients__wrapper">
+            {% recipe_energy_nutrients 80 True recipe  %}
+          </div>
+        </div>
+        <!--Content-->
+      </div>
+      <!--Grid column-->
+      <div class="col-md-6 text-center">
+        <h4 class="my-4 h4">How to Cook</h4>
+          <p>{{recipe.description | safe}}</p>
+          </div>
+      </div>
+        
+    </div>
+    <!--Grid row-->
+
+    <hr>
+
+    <div class="row wow fadeIn">
+      {% for im in recipe.recipeimage_set.all %}
+      <div class="col-lg-auto col-md-auto ml-4">
+        <a href="{{ im.image.url }}">
+          <img src="{{ im.thumbnail.url }}" class="img-fluid" alt="" title="{{ im.title }}">
+        </a>
+      </div>
+      {% endfor %}
+      <!-- Grid column -->
+      <!-- <div class="col-lg-4 col-md-12 mb-4">
+        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid" alt="">
+
+      </div> -->
+      <!--Grid column-->
+
+    </div>
+    <!--Grid row-->
+
+    <div class="text-center">
+      <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          All Ingredients
+      </a>
+      <div class="collapse" id="collapseExample">
+        <div class="row wow fadeIn">
+          <div class="col-md-12 mr-6">
+            <table class="table table-hover">
+              <thead>
+                <tr class="table-success">
+                  <th scope="col">
+                      {% trans "Ingredients" %}
+                  </th>
+                  <th scope="col">
+                      {% trans "Weight, gram" %}
+                  </th>
+                  <th scope="col">
+                      {% trans "Protein, gr" %}
+                  </th>
+                  <th scope="col">
+                      {% trans "Fat, gr" %}
+                  </th>
+                  <th scope="col">
+                      {% trans "Carbohydrate, gr" %}
+                  </th>
+                  <th scope="col">
+                      {% trans "Energy, kCal" %}
+                  </th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for ri in recipe.recipeingredient_set.all %}
+                          <tr>
+                              <td>
+                                  <a href="{% url 'core:recipes_ingredient' ri.ingredient.name ri.ingredient.slug %}">{{ ri.ingredient.name }}</a>
+                              </td>
+                              <td>
+                                  {{ri.weight}}
+                                  {% if ri.roughly %}
+                                      *
+                                  {% endif %}
+                              </td>
+                              <td>{{ri.ingredient.protein}}</td>
+                              <td>{{ri.ingredient.fat}}</td>
+                              <td>{{ri.ingredient.carbohydrate}}</td>
+                              <td>{{ ri.ingredient.energy | human_float:"0" }}</td>
+                              
+                          </tr>
+                      {% endfor %}
+              <tbody>
+            </table>
+    
+      </div>
+    </div>
+    <!--Grid row-->
+  
+  </div>
+</main>
+
+{% endblock content %}
