@@ -1,6 +1,6 @@
 # django_vegetarian_recipe
 
-## <a href='https://youtu.be/6jMvJNuxIsg'>Project Demo</a> 
+## <a href='https://youtu.be/6jMvJNuxIsg'>Project Demo Video</a> 
 
 This web app allows users to view different vegetarian recipes, see their total calories, nutrients like protein, carbohydrate, fat and their ingredients. It also allows users to order the recipes although payment option is not implemented yet. Recipes have categories and tags which will allow users to choose among different categories and tags.
 
