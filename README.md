@@ -1,5 +1,7 @@
 # django_vegetarian_recipe
 
+## <a href='https://youtu.be/6jMvJNuxIsg'>Project Demo</a> 
+
 This web app allows users to view different vegetarian recipes, see their total calories, nutrients like protein, carbohydrate, fat and their ingredients. It also allows users to order the recipes although payment option is not implemented yet. Recipes have categories and tags which will allow users to choose among different categories and tags.
 
 Vegetarian Food Recipe project follows the Model-View-Template (MVT) which is slightly different from MVC. It is a collection of three essential components Model, View, and Template. These three layers are responsible for different things, and we use them independently. Django is a popular web development framework that uses the MVT design pattern. 
